@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Item from "./Item.js";
 import uuid from "react-uuid";
 
@@ -34,6 +34,8 @@ export default function Shop() {
         const newList = itemsList.filter((item) => item.id !== id);
         setItemsList(newList)
     }
+
+    useEffect(() => console.log(itemsList), [`${itemsList}`])
 
     return (
         <>
