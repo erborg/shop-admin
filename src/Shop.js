@@ -22,8 +22,8 @@ export default function Shop() {
         if (name === '' || desc === '') {
             setError('Fields should not be empty!')
         } else {
-            const newItem = itemsList.concat({id: uuid(), name, desc});
-            setItemsList(newItem)
+            const newItem = {id: uuid(), name, desc};
+            setItemsList([...itemsList, newItem])
             setName("")
             setDescription("")
             setError("")
