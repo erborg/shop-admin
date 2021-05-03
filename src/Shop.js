@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
-import Item from "./Item.js";
 import uuid from "react-uuid";
+import ItemList from "./ItemList";
+import AddItem from "./AddItem";
 
 export default function Shop() {
     const items = [];
-    const [error, setError] = useState("")
+    const [valid, setInvalid] = useState("")
     const [itemsList, setItemsList] = useState(items)
     const [name, setName] = useState("")
     const [desc, setDescription] = useState("")
@@ -20,13 +21,13 @@ export default function Shop() {
     function submitHandler(event) {
         event.preventDefault()
         if (name === '' || desc === '') {
-            setError('Fields should not be empty!')
+            setInvalid('Fields should not be empty!')
         } else {
             const newItem = {id: uuid(), name, desc};
             setItemsList([...itemsList, newItem])
             setName("")
             setDescription("")
-            setError("")
+            setInvalid("")
         }
     }
 
@@ -39,38 +40,13 @@ export default function Shop() {
 
     return (
         <>
-            <form onSubmit={submitHandler}>
-                <div>
-                    <label htmlFor="name">Название: </label>
-                    <input type="text" id="name" value={name} placeholder="Название товара" className="textfield"
-                           onChange={handleAddName}/>
+            <AddItem name={name} desc={desc} onNameChange={handleAddName} onDescChange={handleAddDesc}
+                     onSubmit={submitHandler} valid={valid}/>
+            {itemsList.length === 0 ? (<div>
+                    <p>Добавьте первый товар</p>
                 </div>
-                <div>
-                    <label htmlFor="desc">Описание: </label>
-                    <input type="text" id="desc" value={desc} placeholder="Описание товара" className="textfield"
-                           onChange={handleAddDesc}
-                    />
-                </div>
-                <div className="form-footer">
-                    <div className="validation">{error.length !== 0 ? error : null}</div>
-                    <input type="submit" className="btn-basic" value="Добавить"/>
-                </div>
-            </form>
-
-            <div>{itemsList.length === 0 ? (
-                <p>Добавьте первый товар</p>
             ) : null}
-
-            </div>
-
-            <ul className="shop">
-                {itemsList.map((item, index) => (
-                    <li key={index}>
-                        <Item info={item}/>
-                        <button onClick={() => handleRemove(item.id)} className="btn-delete">Удалить</button>
-                    </li>
-                ))}
-            </ul>
+            <ItemList items={itemsList} onRemove={handleRemove}/>
         </>
     );
 }
