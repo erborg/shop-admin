@@ -13,8 +13,6 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "format": "prettier --write src",
-    "lint": "concurrently \"yarn run eslint\"",
-    "lint:fix": "concurrently \"yarn run eslint:fix\"",
     "eslint": "eslint src",
     "eslint:fix": "yarn run eslint --fix"
   },
