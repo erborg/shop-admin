@@ -5,11 +5,27 @@ import AddItem from '../AddItem';
 import * as React from 'react';
 
 export default function Shop() {
-  const items: any[] | (() => any[]) = [];
   const [valid, setInvalid] = useState('');
-  const [itemsList, setItemsList] = useState(items);
+  const [itemsList, setItemsList] = useState(() => {
+    const itemValue = localStorage.getItem('items');
+    return itemValue !== null ? JSON.parse(itemValue) : [];
+  });
   const [name, setName] = useState('');
   const [desc, setDescription] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(itemsList));
+  }, [itemsList]);
+
+  useEffect(() => {
+    if (itemsList.length === 0) {
+      document.title = `Товары отсутствуют`;
+    } else if (itemsList.length === 1) {
+      document.title = `Добавлен один товар`;
+    } else {
+      document.title = `Добавлено ${itemsList.length} товаров`;
+    }
+  });
 
   function handleAddName(event: { target: { value: React.SetStateAction<string> } }) {
     setName(event.target.value);
@@ -33,7 +49,7 @@ export default function Shop() {
   }
 
   function handleRemove(id: any) {
-    const newList = itemsList.filter((item) => item.id !== id);
+    const newList = itemsList.filter((item: { id: any }) => item.id !== id);
     setItemsList(newList);
   }
 
