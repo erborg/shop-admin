@@ -2,8 +2,6 @@
   "homepage": "http://erborg.github.io/shop-admin",
   "name": "react-project-4",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
   "main": "src/index.tsx",
   "scripts": {
     "start": "react-scripts start",
