@@ -37,9 +37,22 @@ export default function Shop() {
 
   function submitHandler(event: { preventDefault: () => void }) {
     event.preventDefault();
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ name: name, desc: desc }),
+    };
+
     if (name === '' || desc === '') {
       setInvalid('Fields should not be empty!');
     } else {
+      fetch('https://online-shop.com/admin/items', requestOptions)
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => {
+          console.error(error);
+        });
       const newItem = { id: uuidv4(), name, desc };
       setItemsList([...itemsList, newItem]);
       setName('');
